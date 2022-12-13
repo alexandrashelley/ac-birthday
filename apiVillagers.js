@@ -1,10 +1,10 @@
 class apiVillagers {
-  getVillagers = () => {
-    fetch("http://acnhapi.com/v1/villagers/")
-      .then((response) => response.json())
-      .then((data) => console.log((data)));
+  getVillagers = async () => {
+    const response = await fetch("http://acnhapi.com/v1/villagers/");
+    return response.json();
   };
 }
+
 module.exports = apiVillagers;
 // // .then(res => {
 //   if (res.ok) {

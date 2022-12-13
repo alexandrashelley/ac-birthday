@@ -1,4 +1,6 @@
-const apiVillagers = require ('./apiVillagers')
+const apiVillagers = require ('./apiVillagers');
+const villagerView = require('./villagerView');
 const api = new apiVillagers();
+const view = new villagerView(api)
 
-api.getVillagers();
+view.displayVillagersFromApi();
