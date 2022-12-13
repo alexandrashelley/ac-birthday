@@ -10,7 +10,8 @@
       var apiVillagers2 = class {
         getVillagers = async () => {
           const response = await fetch("http://acnhapi.com/v1/villagers/");
-          return response.json();
+          const data = await response.json();
+          console.log(data);
         };
       };
       module.exports = apiVillagers2;
