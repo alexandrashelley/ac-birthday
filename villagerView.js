@@ -10,8 +10,7 @@ class villagerView {
     const villagerData = await this.api.getVillagers();
 
     villagerData.forEach((villager) => {
-      const villagerNameObject = (villager.name)
-      const villagerName = (villagerNameObject[`name-USen`])
+      const villagerName = (villager.name[`name-USen`])
 
       const villagerParagraph = document.createElement("p");
       villagerParagraph.className = "villager";
