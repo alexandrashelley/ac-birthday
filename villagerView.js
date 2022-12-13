@@ -4,21 +4,21 @@ class villagerView {
   constructor(api) {
     this.api = api;
     this.mainContainerEl = document.querySelector("#villager-data");
-
-    console.log(this.mainContainerEl, "hello");
   }
 
-  async displayVillagersFromApi() {
-     this.api.getVillagers((villagerData) => {
-      villagerData.forEach((villager) => {
-        console.log(villager, "hello")
-        const villagerParagraph = document.createElement("p");
-        villagerParagraph.className = "villager";
-        villagerParagraph.textContent = villager;
-        this.mainContainerEl.append(villagerParagraph);
-        console.log(villagerParagraph, "hello");
-      });
+  async displayVillagerNamesFromApi() {
+    const villagerData = await this.api.getVillagers();
+
+    villagerData.forEach((villager) => {
+      const villagerNameObject = (villager.name)
+      const villagerName = (villagerNameObject[`name-USen`])
+
+      const villagerParagraph = document.createElement("p");
+      villagerParagraph.className = "villager";
+      villagerParagraph.textContent = villagerName;
+      this.mainContainerEl.append(villagerParagraph);
     });
   }
 }
+
 module.exports = villagerView;

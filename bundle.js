@@ -9,9 +9,9 @@
     "apiVillagers.js"(exports, module) {
       var apiVillagers2 = class {
         getVillagers = async () => {
-          const response = await fetch("http://acnhapi.com/v1/villagers/");
+          const response = await fetch("http://acnhapi.com/v1a/villagers/");
           const data = await response.json();
-          console.log(data);
+          return data;
         };
       };
       module.exports = apiVillagers2;
@@ -26,18 +26,16 @@
         constructor(api3) {
           this.api = api3;
           this.mainContainerEl = document.querySelector("#villager-data");
-          console.log(this.mainContainerEl, "hello");
         }
-        async displayVillagersFromApi() {
-          this.api.getVillagers((villagerData) => {
-            villagerData.forEach((villager) => {
-              console.log(villager, "hello");
-              const villagerParagraph = document.createElement("p");
-              villagerParagraph.className = "villager";
-              villagerParagraph.textContent = villager;
-              this.mainContainerEl.append(villagerParagraph);
-              console.log(villagerParagraph, "hello");
-            });
+        async displayVillagerNamesFromApi() {
+          const villagerData = await this.api.getVillagers();
+          villagerData.forEach((villager) => {
+            const villagerNameObject = villager.name;
+            const villagerName = villagerNameObject[`name-USen`];
+            const villagerParagraph = document.createElement("p");
+            villagerParagraph.className = "villager";
+            villagerParagraph.textContent = villagerName;
+            this.mainContainerEl.append(villagerParagraph);
           });
         }
       };
@@ -50,5 +48,5 @@
   var villagerView = require_villagerView();
   var api = new apiVillagers();
   var view = new villagerView(api);
-  view.displayVillagersFromApi();
+  view.displayVillagerNamesFromApi();
 })();
