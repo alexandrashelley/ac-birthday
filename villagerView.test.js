@@ -15,7 +15,6 @@ describe("Page view", () => {
   });
 
   it("loads villager data from the api and appends paragraphs with names to the page", async () => {
-    document.body.innerHTML = fs.readFileSync("./index.html");
 
     const mockApi = {
       getVillagers: jest.fn().mockResolvedValue([
@@ -26,7 +25,7 @@ describe("Page view", () => {
         }
       ])
     };
-    
+
     const view = new villagerView(mockApi);
 
     await view.displayVillagerNamesFromApi();
