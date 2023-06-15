@@ -3,7 +3,7 @@ const api = require("./apiVillagers");
 class villagerView {
   constructor(api) {
     this.api = api;
-    this.mainContainerEl = document.querySelector("#villager-data");
+    this.mainContainerEl = document.querySelector("#villager-data"); 
   }
 
   async displayVillagerNamesFromApi() {
