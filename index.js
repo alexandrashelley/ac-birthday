@@ -4,3 +4,4 @@ const api = new apiVillagers();
 const view = new villagerView(api)
 
 view.displayVillagerNamesFromApi();
+view.findVillagerByBirthday();

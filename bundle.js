@@ -11,6 +11,7 @@
         getVillagers = async () => {
           const response = await fetch("http://acnhapi.com/v1a/villagers/");
           const data = await response.json();
+          console.log(data);
           return data;
         };
       };
@@ -26,6 +27,17 @@
         constructor(api3) {
           this.api = api3;
           this.mainContainerEl = document.querySelector("#villager-data");
+          this.birthdayInput = document.querySelector("#birthday-input");
+          this.submitButton = document.querySelector("#submit-birthday");
+          this.submitButton.addEventListener("click", () => {
+            this.birthdayDiv(this.formattedDate());
+          });
+        }
+        birthdayDiv(birthday) {
+          const birthdayDiv = document.createElement("div");
+          birthdayDiv.className = "birthday";
+          birthdayDiv.textContent = birthday;
+          this.mainContainerEl.append(birthdayDiv);
         }
         async displayVillagerNamesFromApi() {
           const villagerData = await this.api.getVillagers();
@@ -36,6 +48,20 @@
             villagerParagraph.textContent = villagerName;
             this.mainContainerEl.append(villagerParagraph);
           });
+        }
+        formattedDate() {
+          const date = this.birthdayInput.value;
+          const parts = date.split("-");
+          const month = parseInt(parts[1]);
+          const day = parseInt(parts[2]);
+          const formattedBirthday = `${day}/${month}`;
+          return formattedBirthday;
+        }
+        async findVillagerByBirthday() {
+          const villagerData = await this.api.getVillagers();
+          const result = villagerData.find((item) => item.birthday = "9/3");
+          const name = result.name[`name-USen`];
+          console.log(name);
         }
       };
       module.exports = villagerView2;
@@ -48,4 +74,5 @@
   var api = new apiVillagers();
   var view = new villagerView(api);
   view.displayVillagerNamesFromApi();
+  view.findVillagerByBirthday();
 })();
