@@ -69,7 +69,14 @@
             return result.name["name-USen"];
           } else {
             console.log("error");
+            this.displayError();
           }
+        }
+        displayError() {
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "search-error";
+          errorDiv.textContent = "Sorry! We couldn't find your birthday buddy :(";
+          this.mainContainerEl.append(errorDiv);
         }
       };
       module.exports = villagerView2;
