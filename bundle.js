@@ -11,7 +11,6 @@
         getVillagers = async () => {
           const response = await fetch("http://acnhapi.com/v1a/villagers/");
           const data = await response.json();
-          console.log(data);
           return data;
         };
       };
@@ -29,25 +28,17 @@
           this.mainContainerEl = document.querySelector("#villager-data");
           this.birthdayInput = document.querySelector("#birthday-input");
           this.submitButton = document.querySelector("#submit-birthday");
-          this.submitButton.addEventListener("click", () => {
-            this.birthdayDiv(this.formattedDate());
+          this.submitButton.addEventListener("click", async () => {
+            const formattedDate = this.formattedDate();
+            const villager = await this.findVillagerByBirthday(formattedDate);
+            this.displayVillagerName(villager);
           });
         }
-        birthdayDiv(birthday) {
-          const birthdayDiv = document.createElement("div");
-          birthdayDiv.className = "birthday";
-          birthdayDiv.textContent = birthday;
-          this.mainContainerEl.append(birthdayDiv);
-        }
-        async displayVillagerNamesFromApi() {
-          const villagerData = await this.api.getVillagers();
-          villagerData.forEach((villager) => {
-            const villagerName = villager.name[`name-USen`];
-            const villagerParagraph = document.createElement("p");
-            villagerParagraph.className = "villager";
-            villagerParagraph.textContent = villagerName;
-            this.mainContainerEl.append(villagerParagraph);
-          });
+        displayVillagerName(villager) {
+          const villagerParagraph = document.createElement("p");
+          villagerParagraph.className = "villager";
+          villagerParagraph.textContent = villager;
+          this.mainContainerEl.append(villagerParagraph);
         }
         formattedDate() {
           const date = this.birthdayInput.value;
@@ -57,11 +48,28 @@
           const formattedBirthday = `${day}/${month}`;
           return formattedBirthday;
         }
+        searchNestedObject(arr, value) {
+          for (let obj of arr) {
+            if (obj.birthday === value) {
+              return obj;
+            }
+            if (obj.children) {
+              let result = findValue(obj.children, value);
+              if (result) {
+                return result;
+              }
+            }
+          }
+        }
         async findVillagerByBirthday() {
           const villagerData = await this.api.getVillagers();
-          const result = villagerData.find((item) => item.birthday = "9/3");
-          const name = result.name[`name-USen`];
-          console.log(name);
+          const searchValue = this.formattedDate();
+          const result = this.searchNestedObject(villagerData, searchValue);
+          if (result) {
+            return result.name["name-USen"];
+          } else {
+            console.log("error");
+          }
         }
       };
       module.exports = villagerView2;
@@ -73,6 +81,4 @@
   var villagerView = require_villagerView();
   var api = new apiVillagers();
   var view = new villagerView(api);
-  view.displayVillagerNamesFromApi();
-  view.findVillagerByBirthday();
 })();
