@@ -1,7 +1,10 @@
-const apiVillagers = require ('./apiVillagers');
+
+const apiAC = require ('./apiAC');
 const villagerView = require('./villagerView');
-const api = new apiVillagers();
+const api = new apiAC();
 const view = new villagerView(api)
 
 // //view.displayVillagerNamesFromApi();
 // view.findVillagerByBirthday();
+
+api.getSongs();

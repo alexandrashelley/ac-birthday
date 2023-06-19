@@ -4,7 +4,7 @@
 
 const fs = require("fs");
 const villagerView = require("./villagerView");
-const villagerApi = require("./apiVillagers");
+const villagerApi = require("./apiACNH");
 
 require("jest-fetch-mock").enableMocks();
 

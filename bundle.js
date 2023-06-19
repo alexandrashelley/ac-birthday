@@ -4,25 +4,29 @@
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
-  // apiVillagers.js
-  var require_apiVillagers = __commonJS({
-    "apiVillagers.js"(exports, module) {
-      var apiVillagers2 = class {
+  // apiAC.js
+  var require_apiAC = __commonJS({
+    "apiAC.js"(exports, module) {
+      var apiAC2 = class {
         getVillagers = async () => {
           const response = await fetch("http://acnhapi.com/v1a/villagers/");
           const data = await response.json();
-          console.log(data);
+          return data;
+        };
+        getSongs = async () => {
+          const response = await fetch("https://acnhapi.com/v1/music/19");
+          const data = await response.blob();
           return data;
         };
       };
-      module.exports = apiVillagers2;
+      module.exports = apiAC2;
     }
   });
 
   // villagerView.js
   var require_villagerView = __commonJS({
     "villagerView.js"(exports, module) {
-      var api2 = require_apiVillagers();
+      var api2 = require_apiAC();
       var villagerView2 = class {
         constructor(api3) {
           this.api = api3;
@@ -34,6 +38,7 @@
             const formattedDate = this.formattedDate();
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
+            this.playBirthdaySong();
           });
         }
         displayVillagerName(villager) {
@@ -92,14 +97,20 @@
         removeVillagarParagraph() {
           document.querySelectorAll(".villager").forEach((e) => e.remove());
         }
+        async playBirthdaySong() {
+          const audio = await this.api.getSongs();
+          const audioURL = URL.createObjectURL(audio);
+          document.querySelector("#audio-player").src = audioURL;
+        }
       };
       module.exports = villagerView2;
     }
   });
 
   // index.js
-  var apiVillagers = require_apiVillagers();
+  var apiAC = require_apiAC();
   var villagerView = require_villagerView();
-  var api = new apiVillagers();
+  var api = new apiAC();
   var view = new villagerView(api);
+  api.getSongs();
 })();

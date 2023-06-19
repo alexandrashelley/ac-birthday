@@ -1,5 +1,4 @@
-const api = require("./apiVillagers");
-
+const api = require("./apiAC");
 class villagerView {
   constructor(api) {
     this.api = api;
@@ -12,6 +11,7 @@ class villagerView {
       const formattedDate = this.formattedDate();
       const villager = await this.findVillagerByBirthday(formattedDate);
       this.displayVillagerName(villager);
+      this.playBirthdaySong();
     });
   }
 
@@ -81,9 +81,14 @@ class villagerView {
   removeVillagarParagraph() {
     document.querySelectorAll(".villager").forEach((e) => e.remove());
   }
+
+  async playBirthdaySong() {
+    const audio = await this.api.getSongs();
+    const audioURL = URL.createObjectURL(audio);
+    document.querySelector("#audio-player").src = audioURL;
+  }
 }
 
-// database with transparent villager images
 // picture of rare item if birthday is 15th april
 
 module.exports = villagerView;
