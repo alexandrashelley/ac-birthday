@@ -17,7 +17,13 @@ class villagerView {
   displayVillagerName(villager) {
     const villagerParagraph = document.createElement("p");
     villagerParagraph.className = "villager";
-    villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
+
+    if (villager.length === 1) {
+      villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
+    } else {
+      villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`
+    }
+    
     this.mainContainerEl.append(villagerParagraph);
   }
 
@@ -45,7 +51,7 @@ class villagerView {
       }
     }
     if (matches.length > 0) {
-      return matches.map((a) => a.name["name-USen"]);
+      return matches.map(a => a.name["name-USen"]);
     } else {
       undefined;
     }
@@ -54,13 +60,10 @@ class villagerView {
   async findVillagerByBirthday() {
     const villagerData = await this.api.getVillagers();
     const searchValue = this.formattedDate();
-    const result = this.searchNestedObject(villagerData, searchValue);
-    console.log(result, "result");
+    const result = this.searchNestedObject(villagerData, searchValue)
 
-    if (result.length === 1) {
-      return result;
-    } else if (result.length > 1) {
-      console.log("More than 1 villager");
+    if (result) {
+      return result
     } else {
       console.log("error");
       this.displayError();
