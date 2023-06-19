@@ -22,7 +22,7 @@ class villagerView {
     if (villager.length === 1) {
       villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
     } else {
-      villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}`;
+      villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`;
     }
 
     this.mainContainerEl.append(villagerParagraph);
