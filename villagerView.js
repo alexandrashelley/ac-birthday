@@ -17,7 +17,7 @@ class villagerView {
   displayVillagerName(villager) {
     const villagerParagraph = document.createElement("p");
     villagerParagraph.className = "villager";
-    villagerParagraph.textContent = villager;
+    villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
     this.mainContainerEl.append(villagerParagraph);
   }
 
@@ -31,27 +31,36 @@ class villagerView {
   }
 
   searchNestedObject(arr, value) {
+    const matches = [];
+
     for (let obj of arr) {
       if (obj.birthday === value) {
-        return obj;
+        matches.push(obj);
       }
       if (obj.children) {
-        let result = findValue(obj.children, value);
+        let result = this.searchNestedObject(obj.children, value);
         if (result) {
-          return result;
+          matches.push(result);
         }
       }
     }
-    undefined;
+    if (matches.length > 0) {
+      return matches.map((a) => a.name["name-USen"]);
+    } else {
+      undefined;
+    }
   }
 
   async findVillagerByBirthday() {
     const villagerData = await this.api.getVillagers();
     const searchValue = this.formattedDate();
     const result = this.searchNestedObject(villagerData, searchValue);
+    console.log(result, "result");
 
-    if (result) {
-      return result.name["name-USen"];
+    if (result.length === 1) {
+      return result;
+    } else if (result.length > 1) {
+      console.log("More than 1 villager");
     } else {
       console.log("error");
       this.displayError();
@@ -65,5 +74,9 @@ class villagerView {
     this.mainContainerEl.append(errorDiv);
   }
 }
+
+// database with transparent villager images
+// check whether there are birthdays shared by more than one villager
+// picture of rare item if birthday is 15th april
 
 module.exports = villagerView;

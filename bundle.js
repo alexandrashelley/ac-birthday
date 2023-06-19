@@ -11,6 +11,7 @@
         getVillagers = async () => {
           const response = await fetch("http://acnhapi.com/v1a/villagers/");
           const data = await response.json();
+          console.log(data);
           return data;
         };
       };
@@ -37,7 +38,7 @@
         displayVillagerName(villager) {
           const villagerParagraph = document.createElement("p");
           villagerParagraph.className = "villager";
-          villagerParagraph.textContent = villager;
+          villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
           this.mainContainerEl.append(villagerParagraph);
         }
         formattedDate() {
@@ -49,24 +50,32 @@
           return formattedBirthday;
         }
         searchNestedObject(arr, value) {
+          const matches = [];
           for (let obj of arr) {
             if (obj.birthday === value) {
-              return obj;
+              matches.push(obj);
             }
             if (obj.children) {
-              let result = findValue(obj.children, value);
+              let result = this.searchNestedObject(obj.children, value);
               if (result) {
-                return result;
+                matches.push(result);
               }
             }
+          }
+          if (matches.length > 0) {
+            return matches.map((a) => a.name["name-USen"]);
+          } else {
           }
         }
         async findVillagerByBirthday() {
           const villagerData = await this.api.getVillagers();
           const searchValue = this.formattedDate();
           const result = this.searchNestedObject(villagerData, searchValue);
-          if (result) {
-            return result.name["name-USen"];
+          console.log(result, "result");
+          if (result.length === 1) {
+            return result;
+          } else if (result.length > 1) {
+            console.log("More than 1 villager");
           } else {
             console.log("error");
             this.displayError();
