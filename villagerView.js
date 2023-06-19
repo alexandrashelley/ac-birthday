@@ -8,6 +8,7 @@ class villagerView {
     this.submitButton = document.querySelector("#submit-birthday");
 
     this.submitButton.addEventListener("click", async () => {
+      this.removeVillagarParagraph();
       const formattedDate = this.formattedDate();
       const villager = await this.findVillagerByBirthday(formattedDate);
       this.displayVillagerName(villager);
@@ -21,9 +22,9 @@ class villagerView {
     if (villager.length === 1) {
       villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
     } else {
-      villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`
+      villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}`;
     }
-    
+
     this.mainContainerEl.append(villagerParagraph);
   }
 
@@ -51,7 +52,7 @@ class villagerView {
       }
     }
     if (matches.length > 0) {
-      return matches.map(a => a.name["name-USen"]);
+      return matches.map((a) => a.name["name-USen"]);
     } else {
       undefined;
     }
@@ -60,10 +61,10 @@ class villagerView {
   async findVillagerByBirthday() {
     const villagerData = await this.api.getVillagers();
     const searchValue = this.formattedDate();
-    const result = this.searchNestedObject(villagerData, searchValue)
+    const result = this.searchNestedObject(villagerData, searchValue);
 
     if (result) {
-      return result
+      return result;
     } else {
       console.log("error");
       this.displayError();
@@ -76,10 +77,13 @@ class villagerView {
     errorDiv.textContent = "Sorry! We couldn't find your birthday buddy :(";
     this.mainContainerEl.append(errorDiv);
   }
+
+  removeVillagarParagraph() {
+    document.querySelector(".villager").forEach((e) => e.remove());
+  }
 }
 
 // database with transparent villager images
-// check whether there are birthdays shared by more than one villager
 // picture of rare item if birthday is 15th april
 
 module.exports = villagerView;

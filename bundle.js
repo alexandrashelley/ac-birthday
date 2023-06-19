@@ -30,6 +30,7 @@
           this.birthdayInput = document.querySelector("#birthday-input");
           this.submitButton = document.querySelector("#submit-birthday");
           this.submitButton.addEventListener("click", async () => {
+            this.removeVillagarParagraph();
             const formattedDate = this.formattedDate();
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
@@ -41,7 +42,7 @@
           if (villager.length === 1) {
             villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
           } else {
-            villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`;
+            villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}`;
           }
           this.mainContainerEl.append(villagerParagraph);
         }
@@ -87,6 +88,9 @@
           errorDiv.className = "search-error";
           errorDiv.textContent = "Sorry! We couldn't find your birthday buddy :(";
           this.mainContainerEl.append(errorDiv);
+        }
+        removeVillagarParagraph() {
+          document.querySelector(".villager").forEach((e) => e.remove());
         }
       };
       module.exports = villagerView2;
