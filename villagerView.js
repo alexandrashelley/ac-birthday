@@ -79,7 +79,7 @@ class villagerView {
   }
 
   removeVillagarParagraph() {
-    document.querySelector(".villager").forEach((e) => e.remove());
+    document.querySelectorAll(".villager").forEach((e) => e.remove());
   }
 }
 

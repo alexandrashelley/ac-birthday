@@ -90,7 +90,7 @@
           this.mainContainerEl.append(errorDiv);
         }
         removeVillagarParagraph() {
-          document.querySelector(".villager").forEach((e) => e.remove());
+          document.querySelectorAll(".villager").forEach((e) => e.remove());
         }
       };
       module.exports = villagerView2;
