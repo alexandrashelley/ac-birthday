@@ -1,5 +1,5 @@
 
-const apiAC = require ('./apiAC');
+const apiAC = require('./apiAC');
 const villagerView = require('./villagerView');
 const api = new apiAC();
 const view = new villagerView(api)
@@ -8,3 +8,5 @@ const view = new villagerView(api)
 // view.findVillagerByBirthday();
 
 api.getSongs();
+api.getVillagersNookipedia()
+
