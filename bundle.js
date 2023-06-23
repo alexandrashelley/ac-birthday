@@ -44,7 +44,7 @@
           this.birthdayInput = document.querySelector("#birthday-input");
           this.submitButton = document.querySelector("#submit-birthday");
           this.submitButton.addEventListener("click", async () => {
-            this.removeVillagarParagraph();
+            this.removeVillagerParagraph();
             const formattedDate = this.formattedDate();
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
@@ -110,7 +110,7 @@
           errorDiv.textContent = "Sorry! We couldn't find your birthday buddy :(";
           this.mainContainerEl.append(errorDiv);
         }
-        removeVillagarParagraph() {
+        removeVillagerParagraph() {
           document.querySelectorAll(".villager").forEach((e) => e.remove());
         }
         async playBirthdaySong() {

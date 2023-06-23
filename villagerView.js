@@ -7,7 +7,7 @@ class villagerView {
     this.submitButton = document.querySelector("#submit-birthday");
 
     this.submitButton.addEventListener("click", async () => {
-      this.removeVillagarParagraph();
+      this.removeVillagerParagraph();
       const formattedDate = this.formattedDate();
       const villager = await this.findVillagerByBirthday(formattedDate);
       this.displayVillagerName(villager);
@@ -67,7 +67,7 @@ class villagerView {
       this.displayError();
     }
   }
-  
+
   async getVillagerImageURL() {
     const villagerNames = await this.findVillagerByBirthday();
 
@@ -88,7 +88,7 @@ class villagerView {
     this.mainContainerEl.append(errorDiv);
   }
 
-  removeVillagarParagraph() {
+  removeVillagerParagraph() {
     document.querySelectorAll(".villager").forEach((e) => e.remove());
   }
 
