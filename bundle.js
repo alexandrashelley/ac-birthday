@@ -50,6 +50,7 @@
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
             this.getVillagerImageURL();
+            this.playBirthdaySong();
             this.displayVillagerImage();
           });
         }
@@ -111,6 +112,8 @@
           if (imageSrc.length > 1) {
             const villagerImage1 = document.createElement("img");
             const villagerImage2 = document.createElement("img");
+            villagerImage1.className = "villager-image";
+            villagerImage2.className = "villager-image";
             villagerImage1.src = imageSrc[0];
             villagerImage2.src = imageSrc[1];
             this.mainContainerEl.append(villagerImage1, villagerImage2);
