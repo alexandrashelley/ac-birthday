@@ -45,21 +45,13 @@
           this.submitButton = document.querySelector("#submit-birthday");
           this.submitButton.addEventListener("click", async () => {
             this.removeVillagerParagraph();
+            this.removeVillagerImage();
             const formattedDate = this.formattedDate();
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
             this.getVillagerImageURL();
+            this.displayVillagerImage();
           });
-        }
-        displayVillagerName(villager) {
-          const villagerParagraph = document.createElement("p");
-          villagerParagraph.className = "villager";
-          if (villager.length === 1) {
-            villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
-          } else {
-            villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`;
-          }
-          this.mainContainerEl.append(villagerParagraph);
         }
         formattedDate() {
           const date = this.birthdayInput.value;
@@ -104,14 +96,41 @@
           const imageUrls = flattenedArray.map((villager) => villager.image_url);
           return imageUrls;
         }
+        displayVillagerName(villager) {
+          const villagerParagraph = document.createElement("p");
+          villagerParagraph.className = "villager";
+          if (villager.length === 1) {
+            villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
+          } else {
+            villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`;
+          }
+          this.mainContainerEl.append(villagerParagraph);
+        }
+        async displayVillagerImage() {
+          const imageSrc = await this.getVillagerImageURL();
+          if (imageSrc.length > 1) {
+            const villagerImage1 = document.createElement("img");
+            const villagerImage2 = document.createElement("img");
+            villagerImage1.src = imageSrc[0];
+            villagerImage2.src = imageSrc[1];
+            this.mainContainerEl.append(villagerImage1, villagerImage2);
+          } else {
+            const villagerImage1 = document.createElement("img");
+            villagerImage1.src = imageSrc[0];
+            this.mainContainerEl.append(villagerImage1);
+          }
+        }
+        removeVillagerParagraph() {
+          document.querySelectorAll(".villager").forEach((e) => e.remove());
+        }
+        removeVillagerImage() {
+          document.querySelectorAll("img").forEach((e) => e.remove());
+        }
         displayError() {
           const errorDiv = document.createElement("div");
           errorDiv.className = "search-error";
           errorDiv.textContent = "Sorry! We couldn't find your birthday buddy :(";
           this.mainContainerEl.append(errorDiv);
-        }
-        removeVillagerParagraph() {
-          document.querySelectorAll(".villager").forEach((e) => e.remove());
         }
         async playBirthdaySong() {
           const audio = await this.api.getSongs();
