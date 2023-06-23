@@ -11,7 +11,8 @@ class villagerView {
       const formattedDate = this.formattedDate();
       const villager = await this.findVillagerByBirthday(formattedDate);
       this.displayVillagerName(villager);
-      this.playBirthdaySong();
+      this.getVillagerImageURL();
+      //this.playBirthdaySong();
     });
   }
 
@@ -37,7 +38,7 @@ class villagerView {
     return formattedBirthday;
   }
 
-  searchNestedObject(arr, value) {
+  searchByValue(arr, value) {
     const matches = [];
 
     for (let obj of arr) {
@@ -45,30 +46,39 @@ class villagerView {
         matches.push(obj);
       }
       if (obj.children) {
-        let result = this.searchNestedObject(obj.children, value);
-        if (result) {
-          matches.push(result);
+        let result = this.searchByValue(obj.children, value);
+        if (result.length > 0) {
+          matches.push(...result);
         }
       }
     }
-    if (matches.length > 0) {
-      return matches.map((a) => a.name["name-USen"]);
-    } else {
-      undefined;
-    }
+    return matches;
   }
 
   async findVillagerByBirthday() {
     const villagerData = await this.api.getVillagers();
     const searchValue = this.formattedDate();
-    const result = this.searchNestedObject(villagerData, searchValue);
+    const result = this.searchByValue(villagerData, searchValue);
 
     if (result) {
-      return result;
+      return result.map((a) => a.name["name-USen"]);
     } else {
       console.log("error");
       this.displayError();
     }
+  }
+  
+  async getVillagerImageURL() {
+    const villagerNames = await this.findVillagerByBirthday();
+
+    const villagerArray = await Promise.all(
+      villagerNames.map((villager) => this.api.getVillagersNookipedia(villager))
+    );
+
+    const flattenedArray = villagerArray.flatMap((innerArray) => innerArray);
+    const imageUrls = flattenedArray.map((villager) => villager.image_url);
+
+    return imageUrls;
   }
 
   displayError() {
@@ -90,5 +100,6 @@ class villagerView {
 }
 
 // picture of rare item if birthday is 15th april
+// 31st october returning undefined and undefined
 
 module.exports = villagerView;

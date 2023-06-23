@@ -7,6 +7,6 @@ const view = new villagerView(api)
 // //view.displayVillagerNamesFromApi();
 // view.findVillagerByBirthday();
 
-api.getSongs();
-api.getVillagersNookipedia()
+//console.log(api.getVillagersNookipedia("Beau"))
+
 

@@ -18,15 +18,15 @@
           const data = await response.blob();
           return data;
         };
-        getVillagersNookipedia = async () => {
+        getVillagersNookipedia = async (villagerName) => {
           const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
-          const response = await fetch("https://api.nookipedia.com/villagers", {
+          const response = await fetch(`https://api.nookipedia.com/villagers?name=${villagerName}`, {
             headers: {
               "X-API-KEY": apiKey
             }
           });
           const data = await response.json();
-          console.log(data);
+          return data;
         };
       };
       module.exports = apiAC2;
@@ -48,7 +48,7 @@
             const formattedDate = this.formattedDate();
             const villager = await this.findVillagerByBirthday(formattedDate);
             this.displayVillagerName(villager);
-            this.playBirthdaySong();
+            this.getVillagerImageURL();
           });
         }
         displayVillagerName(villager) {
@@ -69,34 +69,40 @@
           const formattedBirthday = `${day}/${month}`;
           return formattedBirthday;
         }
-        searchNestedObject(arr, value) {
+        searchByValue(arr, value) {
           const matches = [];
           for (let obj of arr) {
             if (obj.birthday === value) {
               matches.push(obj);
             }
             if (obj.children) {
-              let result = this.searchNestedObject(obj.children, value);
-              if (result) {
-                matches.push(result);
+              let result = this.searchByValue(obj.children, value);
+              if (result.length > 0) {
+                matches.push(...result);
               }
             }
           }
-          if (matches.length > 0) {
-            return matches.map((a) => a.name["name-USen"]);
-          } else {
-          }
+          return matches;
         }
         async findVillagerByBirthday() {
           const villagerData = await this.api.getVillagers();
           const searchValue = this.formattedDate();
-          const result = this.searchNestedObject(villagerData, searchValue);
+          const result = this.searchByValue(villagerData, searchValue);
           if (result) {
-            return result;
+            return result.map((a) => a.name["name-USen"]);
           } else {
             console.log("error");
             this.displayError();
           }
+        }
+        async getVillagerImageURL() {
+          const villagerNames = await this.findVillagerByBirthday();
+          const villagerArray = await Promise.all(
+            villagerNames.map((villager) => this.api.getVillagersNookipedia(villager))
+          );
+          const flattenedArray = villagerArray.flatMap((innerArray) => innerArray);
+          const imageUrls = flattenedArray.map((villager) => villager.image_url);
+          return imageUrls;
         }
         displayError() {
           const errorDiv = document.createElement("div");
@@ -122,6 +128,4 @@
   var villagerView = require_villagerView();
   var api = new apiAC();
   var view = new villagerView(api);
-  api.getSongs();
-  api.getVillagersNookipedia();
 })();

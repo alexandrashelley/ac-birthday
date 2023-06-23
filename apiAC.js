@@ -11,17 +11,17 @@ class apiAC {
     return data;
   };
 
-  getVillagersNookipedia = async () => {
+  getVillagersNookipedia = async (villagerName) => {
     const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
 
-    const response = await fetch("https://api.nookipedia.com/villagers", {
+    const response = await fetch(`https://api.nookipedia.com/villagers?name=${villagerName}`, {
       headers: {
         "X-API-KEY": apiKey,
       },
     });
 
     const data = await response.json();
-    console.log(data);
+    return data;
   };
 }
 
