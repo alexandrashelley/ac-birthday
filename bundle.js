@@ -81,12 +81,7 @@
           const villagerData = await this.api.getVillagers();
           const searchValue = this.formattedDate();
           const result = this.searchByValue(villagerData, searchValue);
-          if (result) {
-            return result.map((a) => a.name["name-USen"]);
-          } else {
-            console.log("error");
-            this.displayError();
-          }
+          return result.map((a) => a.name["name-USen"]);
         }
         async getVillagerImageURL() {
           const villagerNames = await this.findVillagerByBirthday();
@@ -102,14 +97,16 @@
           villagerParagraph.className = "villager";
           if (villager.length === 1) {
             villagerParagraph.textContent = `Your birthday buddy is ${villager}!`;
-          } else {
+          } else if (villager.length === 2) {
             villagerParagraph.textContent = `Your birthday buddies are ${villager[0]} and ${villager[1]}!`;
+          } else {
+            this.displayError();
           }
           this.mainContainerEl.append(villagerParagraph);
         }
         async displayVillagerImage() {
           const imageSrc = await this.getVillagerImageURL();
-          if (imageSrc.length > 1) {
+          if (imageSrc.length === 2) {
             const villagerImage1 = document.createElement("img");
             const villagerImage2 = document.createElement("img");
             villagerImage1.className = "villager-image";
@@ -117,10 +114,13 @@
             villagerImage1.src = imageSrc[0];
             villagerImage2.src = imageSrc[1];
             this.mainContainerEl.append(villagerImage1, villagerImage2);
-          } else {
+          } else if (imageSrc.length === 1) {
             const villagerImage1 = document.createElement("img");
+            villagerImage1.className = "villager-image";
             villagerImage1.src = imageSrc[0];
             this.mainContainerEl.append(villagerImage1);
+          } else {
+            console.log("Rare item image TBA");
           }
         }
         removeVillagerParagraph() {
