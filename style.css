@@ -1,11 +1,29 @@
 img.villager-image {
   display: block;
+  max-width: 180px;
+  max-height: 180px;
+  width: auto;
+  height: auto;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 p.villager {
   text-align: center;
+}
 
+.calendar-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#audio-player {
+  display: block;
+  margin: 0 auto;
+}
+
+#birthday-q {
+  display: block;
+  margin: 0 auto;
 }

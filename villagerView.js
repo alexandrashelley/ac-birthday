@@ -10,6 +10,8 @@ class villagerView {
       this.removeQuestionDiv();
       this.removeVillagerParagraph();
       this.removeVillagerImage();
+      this.removeCalendar();
+      this.removeButton();
       const formattedDate = this.formattedDate();
       const villager = await this.findVillagerByBirthday(formattedDate);
       this.displayVillagerName(villager);
@@ -111,7 +113,15 @@ class villagerView {
   }
 
   removeQuestionDiv() {
-    document.querySelector(".birthday-q").remove();
+    document.querySelector("#birthday-q").remove();
+  }
+
+  removeCalendar() {
+    document.querySelector("#birthday-input").remove();
+  }
+
+  removeButton() {
+    document.querySelector("#submit-birthday").remove();
   }
 
   displayError() {
