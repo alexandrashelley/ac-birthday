@@ -18,6 +18,7 @@ class villagerView {
       this.getVillagerImageURL();
       this.playBirthdaySong();
       this.displayVillagerImage();
+      this.displayHomeButton();
     });
   }
 
@@ -100,7 +101,7 @@ class villagerView {
       villagerImage1.src = imageSrc[0];
       this.mainContainerEl.append(villagerImage1);
     } else {
-      console.log("Rare item image TBA")
+      console.log("Rare item image TBA");
     }
   }
 
@@ -122,6 +123,17 @@ class villagerView {
 
   removeButton() {
     document.querySelector("#submit-birthday").remove();
+  }
+
+  displayHomeButton() {
+    const homeButton = document.createElement("button");
+    homeButton.id = "home-button";
+    homeButton.textContent = "Home";
+    this.mainContainerEl.append(homeButton);
+
+    homeButton.addEventListener("click", () => {
+      window.location.reload();
+    });
   }
 
   displayError() {

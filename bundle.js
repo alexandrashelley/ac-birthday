@@ -55,6 +55,7 @@
             this.getVillagerImageURL();
             this.playBirthdaySong();
             this.displayVillagerImage();
+            this.displayHomeButton();
           });
         }
         formattedDate() {
@@ -140,6 +141,15 @@
         }
         removeButton() {
           document.querySelector("#submit-birthday").remove();
+        }
+        displayHomeButton() {
+          const homeButton = document.createElement("button");
+          homeButton.id = "home-button";
+          homeButton.textContent = "Home";
+          this.mainContainerEl.append(homeButton);
+          homeButton.addEventListener("click", () => {
+            window.location.reload();
+          });
         }
         displayError() {
           const errorDiv = document.createElement("div");
