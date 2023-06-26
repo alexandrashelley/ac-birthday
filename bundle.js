@@ -44,6 +44,7 @@
           this.birthdayInput = document.querySelector("#birthday-input");
           this.submitButton = document.querySelector("#submit-birthday");
           this.submitButton.addEventListener("click", async () => {
+            this.removeQuestionDiv();
             this.removeVillagerParagraph();
             this.removeVillagerImage();
             const formattedDate = this.formattedDate();
@@ -128,6 +129,9 @@
         }
         removeVillagerImage() {
           document.querySelectorAll("img").forEach((e) => e.remove());
+        }
+        removeQuestionDiv() {
+          document.querySelector(".birthday-q").remove();
         }
         displayError() {
           const errorDiv = document.createElement("div");

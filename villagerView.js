@@ -7,6 +7,7 @@ class villagerView {
     this.submitButton = document.querySelector("#submit-birthday");
 
     this.submitButton.addEventListener("click", async () => {
+      this.removeQuestionDiv();
       this.removeVillagerParagraph();
       this.removeVillagerImage();
       const formattedDate = this.formattedDate();
@@ -107,6 +108,10 @@ class villagerView {
 
   removeVillagerImage() {
     document.querySelectorAll("img").forEach((e) => e.remove());
+  }
+
+  removeQuestionDiv() {
+    document.querySelector(".birthday-q").remove();
   }
 
   displayError() {
