@@ -19,6 +19,7 @@ class villagerView {
       this.playBirthdaySong();
       this.displayVillagerImage();
       this.displayHomeButton();
+      this.displayMoonImage();
     });
   }
 
@@ -67,6 +68,21 @@ class villagerView {
     const imageUrls = flattenedArray.map((villager) => villager.image_url);
 
     return imageUrls;
+  }
+
+  async getMoonName() {
+    const moonData = await this.api.getMoon();
+    const moonName = moonData.name;
+    return moonName;
+  }
+
+  async displayMoonImage() {
+    const moonData = await this.api.getMoon();
+    const moonURL = moonData.image_url
+    const moonImage = document.createElement("img")
+    moonImage.className = "rare-item-image"
+    moonImage.src = moonURL
+    this.mainContainerEl.append(moonImage);
   }
 
   displayVillagerName(villager) {

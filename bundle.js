@@ -28,6 +28,16 @@
           const data = await response.json();
           return data;
         };
+        getMoon = async () => {
+          const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
+          const response = await fetch(`https://api.nookipedia.com/nh/recipes/moon`, {
+            headers: {
+              "X-API-KEY": apiKey
+            }
+          });
+          const data = await response.json();
+          return data;
+        };
       };
       module.exports = apiAC2;
     }
@@ -56,6 +66,7 @@
             this.playBirthdaySong();
             this.displayVillagerImage();
             this.displayHomeButton();
+            this.displayMoonImage();
           });
         }
         formattedDate() {
@@ -95,6 +106,19 @@
           const flattenedArray = villagerArray.flatMap((innerArray) => innerArray);
           const imageUrls = flattenedArray.map((villager) => villager.image_url);
           return imageUrls;
+        }
+        async getMoonName() {
+          const moonData = await this.api.getMoon();
+          const moonName = moonData.name;
+          return moonName;
+        }
+        async displayMoonImage() {
+          const moonData = await this.api.getMoon();
+          const moonURL = moonData.image_url;
+          const moonImage = document.createElement("img");
+          moonImage.className = "rare-item-image";
+          moonImage.src = moonURL;
+          this.mainContainerEl.append(moonImage);
         }
         displayVillagerName(villager) {
           const villagerParagraph = document.createElement("p");
@@ -172,4 +196,5 @@
   var villagerView = require_villagerView();
   var api = new apiAC();
   var view = new villagerView(api);
+  view.getMoonName();
 })();

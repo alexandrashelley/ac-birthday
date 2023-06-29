@@ -23,6 +23,21 @@ class apiAC {
     const data = await response.json();
     return data;
   };
+
+  getMoon = async () => {
+    const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
+
+    const response = await fetch(`https://api.nookipedia.com/nh/recipes/moon`, {
+      headers: {
+        "X-API-KEY": apiKey
+      }
+    })
+
+    const data = await response.json();
+    return(data)
+  }
 }
+
+//https://api.nookipedia.com/nh/recipes/crescent-moon_chair
 
 module.exports = apiAC;

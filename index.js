@@ -7,6 +7,4 @@ const view = new villagerView(api)
 // //view.displayVillagerNamesFromApi();
 // view.findVillagerByBirthday();
 
-//console.log(api.getVillagersNookipedia("Beau"))
-
-
+view.getMoonName()
