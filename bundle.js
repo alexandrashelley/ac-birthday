@@ -59,14 +59,18 @@
             this.removeVillagerImage();
             this.removeCalendar();
             this.removeButton();
-            const formattedDate = this.formattedDate();
-            const villager = await this.findVillagerByBirthday(formattedDate);
-            this.displayVillagerName(villager);
-            this.getVillagerImageURL();
-            this.playBirthdaySong();
-            this.displayVillagerImage();
-            this.displayHomeButton();
-            this.displayMoonImage();
+            if (this.formattedDate() === "15/4") {
+              this.displayRareBirthdayMessage();
+              this.displayMoonImage();
+            } else {
+              const formattedDate = this.formattedDate();
+              const villager = await this.findVillagerByBirthday(formattedDate);
+              this.displayVillagerName(villager);
+              this.getVillagerImageURL();
+              this.playBirthdaySong();
+              this.displayVillagerImage();
+              this.displayHomeButton();
+            }
           });
         }
         formattedDate() {
@@ -107,11 +111,6 @@
           const imageUrls = flattenedArray.map((villager) => villager.image_url);
           return imageUrls;
         }
-        async getMoonName() {
-          const moonData = await this.api.getMoon();
-          const moonName = moonData.name;
-          return moonName;
-        }
         async displayMoonImage() {
           const moonData = await this.api.getMoon();
           const moonURL = moonData.image_url;
@@ -150,6 +149,12 @@
           } else {
             console.log("Rare item image TBA");
           }
+        }
+        displayRareBirthdayMessage() {
+          const rareMessageDiv = document.createElement("div");
+          rareMessageDiv.id = "rare-message";
+          rareMessageDiv.textContent = "Hey, that's a rare birthday you've got there! So rare in fact, there aren't currently any villagers who share it! But hey, the moon will always be there to celebrate with you, and the DIY is like, pretty rare too, y'know.";
+          this.mainContainerEl.append(rareMessageDiv);
         }
         removeVillagerParagraph() {
           document.querySelectorAll(".villager").forEach((e) => e.remove());
