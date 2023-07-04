@@ -71,30 +71,33 @@
           this.birthdayInput = document.querySelector("#birthday-input");
           this.submitButton = document.querySelector("#submit-birthday");
           this.submitButton.addEventListener("click", async () => {
-            this.removeQuestionDiv();
-            this.removeVillagerParagraph();
-            this.removeVillagerImage();
-            this.removeCalendar();
-            this.removeButton();
-            if (this.formattedDate() === "15/4") {
-              this.displayRareBirthdayMessage();
-              this.displayMoonImage();
-              this.displayHomeButton();
-            } else if (this.formattedDate() === "31/10") {
-              this.displayShinoImage();
-              this.displayVillagerName(["Shino"]);
-              this.playBirthdaySong();
-              this.displayHomeButton();
-            } else {
-              const formattedDate = this.formattedDate();
-              const villager = await this.findVillagerByBirthday(formattedDate);
-              this.displayVillagerName(villager);
-              this.getVillagerImageURL();
-              this.playBirthdaySong();
-              this.displayVillagerImage();
-              this.displayHomeButton();
-            }
+            this.handleBirthdayInput();
           });
+        }
+        async handleBirthdayInput() {
+          this.removeQuestionDiv();
+          this.removeVillagerParagraph();
+          this.removeVillagerImage();
+          this.removeCalendar();
+          this.removeButton();
+          const formattedDate = this.formattedDate();
+          if (formattedDate === "15/4") {
+            this.displayRareBirthdayMessage();
+            this.displayMoonImage();
+            this.displayHomeButton();
+          } else if (formattedDate === "31/10") {
+            this.displayShinoImage();
+            this.displayVillagerName(["Shino"]);
+            this.playBirthdaySong();
+            this.displayHomeButton();
+          } else {
+            const villager = await this.findVillagerByBirthday(formattedDate);
+            this.displayVillagerName(villager);
+            this.getVillagerImageURL();
+            this.playBirthdaySong();
+            this.displayVillagerImage();
+            this.displayHomeButton();
+          }
         }
         formattedDate() {
           const date = this.birthdayInput.value;
