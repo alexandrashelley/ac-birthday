@@ -15,6 +15,12 @@ class villagerView {
       if (this.formattedDate() === "15/4") {
         this.displayRareBirthdayMessage();
         this.displayMoonImage();
+        this.displayHomeButton();
+      } else if (this.formattedDate() === "31/10") {
+        this.displayShinoImage();
+        this.displayVillagerName(["Shino"])
+        this.playBirthdaySong();
+        this.displayHomeButton();
       } else {
         const formattedDate = this.formattedDate();
         const villager = await this.findVillagerByBirthday(formattedDate);
@@ -72,6 +78,16 @@ class villagerView {
     const imageUrls = flattenedArray.map((villager) => villager.image_url);
 
     return imageUrls;
+  }
+
+  async displayShinoImage() {
+    const shinoArray = await this.api.getVillagersNookipedia("shino");
+    const shinoUrl = shinoArray[0].image_url;
+
+    const shinoImage = document.createElement("img");
+    shinoImage.className = "shino-image";
+    shinoImage.src = shinoUrl;
+    this.mainContainerEl.append(shinoImage);
   }
 
   async displayMoonImage() {
@@ -172,7 +188,6 @@ class villagerView {
   }
 }
 
-// picture of rare item if birthday is 15th april
 // 31st october returning undefined and undefined
 
 module.exports = villagerView;

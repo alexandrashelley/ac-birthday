@@ -20,11 +20,14 @@
         };
         getVillagersNookipedia = async (villagerName) => {
           const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
-          const response = await fetch(`https://api.nookipedia.com/villagers?name=${villagerName}`, {
-            headers: {
-              "X-API-KEY": apiKey
+          const response = await fetch(
+            `https://api.nookipedia.com/villagers?name=${villagerName}`,
+            {
+              headers: {
+                "X-API-KEY": apiKey
+              }
             }
-          });
+          );
           const data = await response.json();
           return data;
         };
@@ -36,6 +39,20 @@
             }
           });
           const data = await response.json();
+          return data;
+        };
+        getShino = async () => {
+          const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
+          const response = await fetch(
+            `https://api.nookipedia.com/villagers?name=shino`,
+            {
+              headers: {
+                "X-API-KEY": apiKey
+              }
+            }
+          );
+          const data = await response.json();
+          console.log(data);
           return data;
         };
       };
@@ -62,6 +79,12 @@
             if (this.formattedDate() === "15/4") {
               this.displayRareBirthdayMessage();
               this.displayMoonImage();
+              this.displayHomeButton();
+            } else if (this.formattedDate() === "31/10") {
+              this.displayShinoImage();
+              this.displayVillagerName(["Shino"]);
+              this.playBirthdaySong();
+              this.displayHomeButton();
             } else {
               const formattedDate = this.formattedDate();
               const villager = await this.findVillagerByBirthday(formattedDate);
@@ -110,6 +133,14 @@
           const flattenedArray = villagerArray.flatMap((innerArray) => innerArray);
           const imageUrls = flattenedArray.map((villager) => villager.image_url);
           return imageUrls;
+        }
+        async displayShinoImage() {
+          const shinoArray = await this.api.getVillagersNookipedia("shino");
+          const shinoUrl = shinoArray[0].image_url;
+          const shinoImage = document.createElement("img");
+          shinoImage.className = "shino-image";
+          shinoImage.src = shinoUrl;
+          this.mainContainerEl.append(shinoImage);
         }
         async displayMoonImage() {
           const moonData = await this.api.getMoon();
@@ -201,5 +232,4 @@
   var villagerView = require_villagerView();
   var api = new apiAC();
   var view = new villagerView(api);
-  view.getMoonName();
 })();

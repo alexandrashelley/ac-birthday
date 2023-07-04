@@ -14,11 +14,14 @@ class apiAC {
   getVillagersNookipedia = async (villagerName) => {
     const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
 
-    const response = await fetch(`https://api.nookipedia.com/villagers?name=${villagerName}`, {
-      headers: {
-        "X-API-KEY": apiKey,
-      },
-    });
+    const response = await fetch(
+      `https://api.nookipedia.com/villagers?name=${villagerName}`,
+      {
+        headers: {
+          "X-API-KEY": apiKey,
+        },
+      }
+    );
 
     const data = await response.json();
     return data;
@@ -29,15 +32,30 @@ class apiAC {
 
     const response = await fetch(`https://api.nookipedia.com/nh/recipes/moon`, {
       headers: {
-        "X-API-KEY": apiKey
-      }
-    })
+        "X-API-KEY": apiKey,
+      },
+    });
 
     const data = await response.json();
-    return(data)
-  }
-}
+    return data;
+  };
 
-//https://api.nookipedia.com/nh/recipes/crescent-moon_chair
+  getShino = async () => {
+    const apiKey = "05ef8e17-fa84-4ce4-98c8-8db023ec4398";
+
+    const response = await fetch(
+      `https://api.nookipedia.com/villagers?name=shino`,
+      {
+        headers: {
+          "X-API-KEY": apiKey,
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  };
+}
 
 module.exports = apiAC;
